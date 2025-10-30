@@ -3,3 +3,13 @@ server.port: 8080
 spring:
   application:
     name: gjenlevende-bs-infotrygd
+
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints.web:
+    exposure.include: info, health, metrics, prometheus
+    base-path: "/internal"
+    path-mapping:
+      info: "status/isAlive"

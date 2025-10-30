@@ -11,11 +11,11 @@ spec:
   ingresses:
     - https://gjenlevende-bs-infotrygd.dev-fss-pub.nais.io
   liveness:
-    path: /internal/health/liveness
+    path: /internal/status/isAlive
     initialDelay: 30
     failureThreshold: 10
   readiness:
-    path: /internal/health/readiness
+    path: /internal/status/isAlive
     initialDelay: 30
     failureThreshold: 10
   prometheus:
