@@ -32,7 +32,6 @@ jobs:
         id: docker-push
         with:
           team: etterlatte
-          byosbom: target/classes/META-INF/sbom/application.cdx.json
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
   deploy:
