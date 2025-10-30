@@ -47,9 +47,7 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: familie-ef-sak
-          cluster: dev-gcp
-        - application: familie-ef-sak-lokal
+        - application: gjenlevende-bs-sak
           cluster: dev-gcp
   observability:
     logging:

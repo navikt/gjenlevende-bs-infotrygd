@@ -31,7 +31,7 @@ jobs:
       - uses: nais/docker-build-push@791ebb6f74b82849c742a9bc9c97abe44c6c111f # ratchet:nais/docker-build-push@v0
         id: docker-push
         with:
-          team: teamfamilie
+          team: etterlatte
           byosbom: target/classes/META-INF/sbom/application.cdx.json
     outputs:
       image: ${{ steps.docker-push.outputs.image }}
