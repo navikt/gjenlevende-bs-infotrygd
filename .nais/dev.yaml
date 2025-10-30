@@ -1,0 +1,78 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: gjenlevende-bs-infotrygd
+  namespace: etterlatte
+  labels:
+    team: etterlatte
+
+spec:
+  image: {{ image }}
+  ingresses:
+    - https://gjenlevende-bs-infotrygd.dev-fss-pub.nais.io
+  liveness:
+    path: /internal/status/isAlive
+    initialDelay: 20
+    failureThreshold: 10
+  readiness:
+    path: /internal/status/isAlive
+    initialDelay: 20
+    failureThreshold: 10
+  prometheus:
+    enabled: true
+    path: /internal/prometheus
+  replicas:
+    min: 1
+    max: 2
+  leaderElection: false
+  # Compare this value with the $HOSTNAME to see if the current instance is the leader
+  preStopHookPath: "" # Optional. A HTTP GET will be issued to this endpoint at least once before the pod is terminated.
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 20m
+      memory: 256Mi
+  # Kommenteres inn når db er satt opp
+  #vault:
+    #enabled: true
+    #paths:
+     # - kvPath: /oracle/data/dev/creds/infotrygd_ebq-user
+      #  mountPath: /var/run/secrets/oracle/creds
+  secureLogs:
+    enabled: true
+  azure:
+    application:
+      enabled: true
+  accessPolicy:
+    inbound:
+      rules:
+        - application: familie-ef-sak
+          cluster: dev-gcp
+        - application: familie-ef-sak-lokal
+          cluster: dev-gcp
+  observability:
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
+    autoInstrumentation:
+      enabled: true
+      runtime: java
+#  env:
+#    - name: APP_DATASOURCE_URL
+#      value: jdbc:oracle:thin:@a01dbfl033.adeo.no:1521/infotrygd_ebq
+#    - name: APP_DATASOURCE_PLATFORM
+#      value: org.hibernate.dialect.OracleDialect
+#    - name: APP_DATASOURCE_DRIVER
+#      value: oracle.jdbc.driver.OracleDriver
+#    - name: APP_JPA_PLATFORM
+#      value: org.hibernate.dialect.OracleDialect
+#    - name: APP_DEFAULT_SCHEMA
+#      value: INFOTRYGD_EBQ
+#    - name: APP_AZURE_PROXY_URL
+#      value: https://webproxy-nais.nav.no:8088
+#    - name: APP_DATASOURCE_USERNAME_PATH
+#      value: /var/run/secrets/oracle/creds/username
+#    - name: APP_DATASOURCE_PASSWORD_PATH
+#      value: /var/run/secrets/oracle/creds/password
