@@ -38,7 +38,7 @@ open class SecurityConfig {
             "http://localhost:8081" // TODO: Er kun med for testing.
         )
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-        configuration.allowedHeaders = listOf("*")
+        configuration.allowedHeaders = listOf("*") // TODO: Fiks denne, gå gjennom.
         configuration.allowCredentials = true
         configuration.maxAge = 3600L
 
