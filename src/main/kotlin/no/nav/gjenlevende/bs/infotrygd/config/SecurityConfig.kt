@@ -15,7 +15,7 @@ open class SecurityConfig {
         http
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/internal/**", "/actuator/**").permitAll()
+                    .requestMatchers("/internal/**", "/actuator/**", "/api/**").permitAll()
                     .anyRequest().authenticated()
             }
             .csrf { it.disable() }
