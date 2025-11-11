@@ -1,89 +1,101 @@
-apiVersion: "nais.io/v1alpha1"
-kind: "Application"
+apiVersion: nais.io/v1alpha1
+kind: Application
 metadata:
-  name: gjenlevende-bs-infotrygd
-  namespace: etterlatte
-  labels:
-    team: etterlatte
+    name: gjenlevende-bs-infotrygd
+    namespace: etterlatte
+    labels:
+        team: etterlatte
 
 spec:
-  image: {{ image }}
-  ingresses:
-    - https://gjenlevende-bs-infotrygd.dev-fss-pub.nais.io
-  liveness:
-    path: /internal/status/isAlive
-    initialDelay: 30
-    failureThreshold: 10
-  readiness:
-    path: /internal/status/isAlive
-    initialDelay: 30
-    failureThreshold: 10
-  prometheus:
-    enabled: true
-    path: /internal/prometheus
-  replicas:
-    min: 1
-    max: 2
-  leaderElection: false
-  # Compare this value with the $HOSTNAME to see if the current instance is the leader
-  preStopHookPath: "" # Optional. A HTTP GET will be issued to this endpoint at least once before the pod is terminated.
-  resources:
-    limits:
-      memory: 512Mi
-    requests:
-      cpu: 20m
-      memory: 256Mi
-  # Kommenteres inn når db er satt opp
-  #vault:
-    #enabled: true
-    #paths:
-     # - kvPath: /oracle/data/dev/creds/infotrygd_ebq-user
-      #  mountPath: /var/run/secrets/oracle/creds
-  secureLogs:
-    enabled: true
-  azure:
-    application:
-      enabled: true
-      tenant: trygdeetaten.no
-      claims:
-        groups:
-          - id: ee5e0b5e-454c-4612-b931-1fe363df7c2c # 0000-GA-Enslig-Forsorger-Saksbehandler
-          - id: 01166863-22f1-4e16-9785-d7a05a22df74 # 0000-GA-Enslig-Forsorger-Beslutter
-          - id: 59865891-62a0-4fe3-b282-2e38210d1fbb # teamfamilie-ef-forvaltning
-        extra:
-          - "NAVident"
-          - "azp_name"
-  accessPolicy:
-    inbound:
-      rules:
-        - application: gjenlevende-bs-sak
-          cluster: dev-gcp
-    outbound:
-      rules:
-        - application: gjenlevende-bs-sak
-          cluster: dev-gcp
-  observability:
-    logging:
-      destinations:
-        - id: loki
-        - id: elastic
-    autoInstrumentation:
-      enabled: true
-      runtime: java
-#  env:
-#    - name: APP_DATASOURCE_URL
-#      value: jdbc:oracle:thin:@a01dbfl033.adeo.no:1521/infotrygd_ebq
-#    - name: APP_DATASOURCE_PLATFORM
-#      value: org.hibernate.dialect.OracleDialect
-#    - name: APP_DATASOURCE_DRIVER
-#      value: oracle.jdbc.driver.OracleDriver
-#    - name: APP_JPA_PLATFORM
-#      value: org.hibernate.dialect.OracleDialect
-#    - name: APP_DEFAULT_SCHEMA
-#      value: INFOTRYGD_EBQ
-#    - name: APP_AZURE_PROXY_URL
-#      value: https://webproxy-nais.nav.no:8088
-#    - name: APP_DATASOURCE_USERNAME_PATH
-#      value: /var/run/secrets/oracle/creds/username
-#    - name: APP_DATASOURCE_PASSWORD_PATH
-#      value: /var/run/secrets/oracle/creds/password
+    # Applikasjon konfigurasjon
+    image: {{ image }}
+    port: 8080
+    replicas:
+        min: 1
+        max: 2
+    resources:
+        requests:
+            cpu: 20m
+            memory: 256Mi
+        limits:
+            memory: 512Mi
+    leaderElection: false
+    preStopHookPath: ""
+
+    # Nettverk
+    ingresses:
+        - https://gjenlevende-bs-infotrygd.dev-fss-pub.nais.io
+    accessPolicy:
+        inbound:
+            rules:
+                -   application: gjenlevende-bs-sak
+                    cluster: dev-gcp
+        outbound:
+            rules:
+                -   application: gjenlevende-bs-sak
+                    cluster: dev-gcp
+
+    # Helse
+    liveness:
+        path: /internal/status/isAlive
+        initialDelay: 30
+        failureThreshold: 10
+    readiness:
+        path: /internal/status/isAlive
+        initialDelay: 30
+        failureThreshold: 10
+
+    # Logging
+    prometheus:
+        enabled: true
+        path: /internal/prometheus
+    observability:
+        autoInstrumentation:
+            enabled: true
+            runtime: java
+        logging:
+            destinations:
+                -   id: loki
+                -   id: elastic
+    secureLogs:
+        enabled: true
+
+    # Autentisering
+    azure:
+        application:
+            enabled: true
+            tenant: trygdeetaten.no
+            claims:
+                groups:
+                    -   id: ee5e0b5e-454c-4612-b931-1fe363df7c2c # 0000-GA-Enslig-Forsorger-Saksbehandler
+                    -   id: 01166863-22f1-4e16-9785-d7a05a22df74 # 0000-GA-Enslig-Forsorger-Beslutter
+                    -   id: 59865891-62a0-4fe3-b282-2e38210d1fbb # teamfamilie-ef-forvaltning
+                extra:
+                    - "NAVident"
+                    - "azp_name"
+
+    # Database konfigurasjon (kommenteres inn når db er satt opp)
+    # vault:
+    #     enabled: true
+    #     paths:
+    #         - kvPath: /oracle/data/dev/creds/infotrygd_ebq-user
+    #           mountPath: /var/run/secrets/oracle/creds
+
+    # Miljøvariabler (kommenteres inn når db er satt opp)
+    # env:
+    #     - name: APP_DATASOURCE_URL
+    #       value: jdbc:oracle:thin:@a01dbfl033.adeo.no:1521/infotrygd_ebq
+    #     - name: APP_DATASOURCE_PLATFORM
+    #       value: org.hibernate.dialect.OracleDialect
+    #     - name: APP_DATASOURCE_DRIVER
+    #       value: oracle.jdbc.driver.OracleDriver
+    #     - name: APP_JPA_PLATFORM
+    #       value: org.hibernate.dialect.OracleDialect
+    #     - name: APP_DEFAULT_SCHEMA
+    #       value: INFOTRYGD_EBQ
+    #     - name: APP_AZURE_PROXY_URL
+    #       value: https://webproxy-nais.no:8088
+    #     - name: APP_DATASOURCE_USERNAME_PATH
+    #       value: /var/run/secrets/oracle/creds/username
+    #     - name: APP_DATASOURCE_PASSWORD_PATH
+    #       value: /var/run/secrets/oracle/creds/password
