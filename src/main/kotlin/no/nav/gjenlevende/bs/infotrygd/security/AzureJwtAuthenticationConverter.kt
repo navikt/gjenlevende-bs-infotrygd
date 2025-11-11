@@ -31,7 +31,7 @@ class AzureJwtAuthenticationConverter : Converter<Jwt, AbstractAuthenticationTok
 
         if (roller.isEmpty()) {
             logger.warn("Bruker $navIdent har ingen gyldige roller. Grupper i token: ${grupper.joinToString(", ")}")
-            throw UtilstrekkeligTilgangException("Bruker har ikke tilgang til applikasjonen. Mangler påkrevde gruppemedlemskap.")
+            throw UtilstrekkeligTilgangException("Bruker har ikke tilgang til applikasjonen. Mangler roller.")
         }
 
         val authorities = roller.map { SimpleGrantedAuthority(it.authority()) }
