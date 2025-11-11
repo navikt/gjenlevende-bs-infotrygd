@@ -16,14 +16,8 @@ class InfotrygdController {
     @PreAuthorize("hasRole('SAKSBEHANDLER')")
     fun ping(
         @AuthenticationPrincipal jwt: Jwt,
-    ): ResponseEntity<Map<String, String>> {
+    ): ResponseEntity<String> {
         val navIdent = jwt.getClaimAsString("NAVident")
-
-        return ResponseEntity.ok(
-            mapOf(
-                "melding" to "Pong fra gjenlevende-bs-infotrygd",
-                "navIdent" to navIdent,
-            ),
-        )
+        return ResponseEntity.ok("Pong fra gjenlevende-bs-infotrygd (NAVident: $navIdent)")
     }
 }
