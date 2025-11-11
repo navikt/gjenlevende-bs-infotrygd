@@ -3,7 +3,6 @@ package no.nav.gjenlevende.bs.infotrygd.security
 import org.slf4j.LoggerFactory
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.authentication.AbstractAuthenticationToken
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
@@ -31,20 +30,13 @@ class AzureJwtAuthenticationConverter : Converter<Jwt, AbstractAuthenticationTok
         val roller = Rolle.fraAzureGrupper(grupper)
 
         if (roller.isEmpty()) {
-            logger.warn(
-                "Bruker $navIdent har ingen gyldige roller. Grupper i token: ${grupper.joinToString(", ")}",
-            )
-            throw UtilstrekkeligTilgangException(
-                "Bruker har ikke tilgang til applikasjonen. Mangler påkrevde gruppemedlemskap.",
-            )
+            logger.warn("Bruker $navIdent har ingen gyldige roller. Grupper i token: ${grupper.joinToString(", ")}")
+            throw UtilstrekkeligTilgangException("Bruker har ikke tilgang til applikasjonen. Mangler påkrevde gruppemedlemskap.")
         }
 
-        // Konverter roller til Spring Security authorities
         val authorities = roller.map { SimpleGrantedAuthority(it.authority()) }
 
-        logger.debug(
-            "Autentisert bruker $navIdent med roller: ${roller.joinToString(", ")}",
-        )
+        logger.debug("Autentisert bruker $navIdent med roller: ${roller.joinToString(", ")}")
 
         return JwtAuthenticationToken(jwt, authorities)
     }
