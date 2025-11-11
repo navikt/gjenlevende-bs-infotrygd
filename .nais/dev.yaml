@@ -15,7 +15,7 @@ spec:
     initialDelay: 30
     failureThreshold: 10
   readiness:
-    path: /internal/status/isAlive
+    path: /internal/status/isReady
     initialDelay: 30
     failureThreshold: 10
   prometheus:
@@ -33,12 +33,11 @@ spec:
     requests:
       cpu: 20m
       memory: 256Mi
-  # Kommenteres inn når db er satt opp
-  #vault:
-    #enabled: true
-    #paths:
-     # - kvPath: /oracle/data/dev/creds/infotrygd_ebq-user
-      #  mountPath: /var/run/secrets/oracle/creds
+  vault:
+    enabled: true
+    paths:
+      - kvPath: /oracle/data/dev/creds/eb_infotrygd_q1-user
+        mountPath: /var/run/secrets/oracle/creds
   secureLogs:
     enabled: true
   azure:
@@ -46,10 +45,6 @@ spec:
       enabled: true
   accessPolicy:
     inbound:
-      rules:
-        - application: gjenlevende-bs-sak
-          cluster: dev-gcp
-    outbound:
       rules:
         - application: gjenlevende-bs-sak
           cluster: dev-gcp
@@ -61,20 +56,20 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
-#  env:
-#    - name: APP_DATASOURCE_URL
-#      value: jdbc:oracle:thin:@a01dbfl033.adeo.no:1521/infotrygd_ebq
-#    - name: APP_DATASOURCE_PLATFORM
-#      value: org.hibernate.dialect.OracleDialect
-#    - name: APP_DATASOURCE_DRIVER
-#      value: oracle.jdbc.driver.OracleDriver
-#    - name: APP_JPA_PLATFORM
-#      value: org.hibernate.dialect.OracleDialect
-#    - name: APP_DEFAULT_SCHEMA
-#      value: INFOTRYGD_EBQ
-#    - name: APP_AZURE_PROXY_URL
-#      value: https://webproxy-nais.nav.no:8088
-#    - name: APP_DATASOURCE_USERNAME_PATH
-#      value: /var/run/secrets/oracle/creds/username
-#    - name: APP_DATASOURCE_PASSWORD_PATH
-#      value: /var/run/secrets/oracle/creds/password
+  env:
+    - name: APP_DATASOURCE_URL
+      value: jdbc:oracle:thin:@a01dbfl033.adeo.no:1521/infotrygd_ebq
+    - name: APP_DATASOURCE_PLATFORM
+      value: org.hibernate.dialect.OracleDialect
+    - name: APP_DATASOURCE_DRIVER
+      value: oracle.jdbc.driver.OracleDriver
+    - name: APP_JPA_PLATFORM
+      value: org.hibernate.dialect.OracleDialect
+    - name: APP_DEFAULT_SCHEMA
+      value: INFOTRYGD_EBQ
+    - name: APP_AZURE_PROXY_URL
+      value: https://webproxy-nais.nav.no:8088
+    - name: APP_DATASOURCE_USERNAME_PATH
+      value: /var/run/secrets/oracle/creds/username
+    - name: APP_DATASOURCE_PASSWORD_PATH
+      value: /var/run/secrets/oracle/creds/password
