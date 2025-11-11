@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/api/infotrygd")
 class InfotrygdController {
-
     @GetMapping("/ping")
     fun ping(): ResponseEntity<String> = ResponseEntity.ok("Pong fra gjenlevende-bs-infotrygd")
 }
