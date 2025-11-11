@@ -99,6 +99,9 @@
                             <jvmTarget>${kotlin.jvm.target}</jvmTarget>
                             <languageVersion>2.2</languageVersion>
                             <apiVersion>2.2</apiVersion>
+                            <compilerPlugins>
+                                <plugin>spring</plugin>
+                            </compilerPlugins>
                         </configuration>
                     </execution>
                     <execution>
@@ -112,6 +115,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
