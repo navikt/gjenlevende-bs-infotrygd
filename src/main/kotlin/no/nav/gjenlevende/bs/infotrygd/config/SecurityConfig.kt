@@ -19,8 +19,10 @@ open class SecurityConfig(
         http
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/internal/**", "/actuator/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/internal/**", "/actuator/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             }.oauth2ResourceServer { oauth2 ->
                 oauth2.jwt { jwt ->
                     jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
