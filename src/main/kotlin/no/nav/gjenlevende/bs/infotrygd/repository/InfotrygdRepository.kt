@@ -9,7 +9,6 @@ import java.time.LocalDate
 class InfotrygdRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
 ) {
-
     fun harStønad(
         personIdenter: Set<String>,
         kunAktive: Boolean = false,
@@ -28,7 +27,7 @@ class InfotrygdRepository(
 
         val result =
             jdbcTemplate.query(
-        """
+                """
                 SELECT L.PERSONNR
                   FROM T_BESLUT B
                 WHERE L.PERSONNR IN (:personIdenter)

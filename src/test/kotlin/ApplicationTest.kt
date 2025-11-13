@@ -1,10 +1,16 @@
-import org.springframework.boot.builder.SpringApplicationBuilder
+import no.nav.gjenlevende.bs.infotrygd.Application
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-class ApplicationTest
 
-fun main(args: Array<String>) {
-    SpringApplicationBuilder(ApplicationTest::class.java)
-        .profiles(
-            "test",
-        ).run(*args)
+@SpringBootTest(
+    classes = [Application::class],
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+class ApplicationTest {
+    @Test
+    fun contextLoads() {
+        // Her starter Spring Boot en web-server på en tilfeldig port
+    }
 }
