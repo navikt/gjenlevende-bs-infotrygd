@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class InfotrygdService(
     private val infotrygdRepository: InfotrygdRepository,
-    @Value("\${APP_DATASOURCE_USERNAME_PATH}") private val username: String,
+    @Value("\${APP_DATASOURCE_USERNAME}") private val username: String,
 ) : CommandLineRunner {
     private val logger = LoggerFactory.getLogger(javaClass)
 
