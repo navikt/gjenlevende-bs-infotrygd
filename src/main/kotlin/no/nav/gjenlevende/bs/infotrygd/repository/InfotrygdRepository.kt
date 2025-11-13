@@ -40,4 +40,16 @@ class InfotrygdRepository(
             }
         return result.toList()
     }
+
+    fun test(): List<String> {
+        val result =
+            jdbcTemplate.query(
+                """
+                select TEKST from T_GRADSTYPE;
+                """,
+            ) { resultSet, _ ->
+                resultSet.getString("TEKST")
+            }
+        return result.toList()
+    }
 }

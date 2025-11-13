@@ -1,0 +1,18 @@
+package no.nav.gjenlevende.bs.infotrygd.service
+
+import no.nav.gjenlevende.bs.infotrygd.repository.InfotrygdRepository
+import org.slf4j.LoggerFactory
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Service
+
+@Service
+class InfotrygdService(
+    private val infotrygdRepository: InfotrygdRepository,
+) : CommandLineRunner {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    override fun run(vararg args: String) {
+        val test = infotrygdRepository.test()
+        logger.info("Antall treff i db: ${test.size} - skal være 7")
+    }
+}
