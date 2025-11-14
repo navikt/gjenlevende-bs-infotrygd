@@ -47,7 +47,7 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: /oracle/data/dev/creds/infotrygd_ebq-user
+      - kvPath: /oracle/data/dev/creds/eb_infotrygd_q1-user
         mountPath: /var/run/secrets/oracle/creds
   # Logging
   prometheus:
