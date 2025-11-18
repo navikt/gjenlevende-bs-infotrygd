@@ -1,6 +1,6 @@
 FROM gcr.io/distroless/java21-debian12:nonroot
 
-COPY --chown=nonroot:nonroot ./build/libs/gjenlevende-bs-infotrygd-1.0-SNAPSHOT.jar /app/app.jar
+COPY --chown=nonroot:nonroot target/gjenlevende-bs-infotrygd.jar /app/app.jar
 
 WORKDIR /app
 
