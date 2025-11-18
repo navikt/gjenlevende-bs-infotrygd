@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles
 )
 @ActiveProfiles("test")
 class ApplicationTest {
-    //@Test disables frem til testing av sql går fint
+    // @Test disables frem til testing av sql går fint
     fun contextLoads() {
         // Her starter Spring Boot en web-server på en tilfeldig port
     }

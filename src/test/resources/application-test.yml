@@ -25,3 +25,7 @@ spring:
                     issuer-uri: http://localhost # dummy
 
 APP_DEFAULT_SCHEMA: INFOTRYGD_Q0
+
+vault:
+    password: "src/test/resources/vault/password"
+    username: "src/test/resources/vault/username"
