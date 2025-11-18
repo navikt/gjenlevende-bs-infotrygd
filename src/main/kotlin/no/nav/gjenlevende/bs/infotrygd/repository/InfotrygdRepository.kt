@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
+import kotlin.collections.emptyMap
 
 @Repository
 class InfotrygdRepository(
@@ -45,13 +46,18 @@ class InfotrygdRepository(
     }
 
     fun test(): List<String> {
-        val user = jdbcTemplate.query("SELECT USER FROM DUAL") { rs ->
-            if (rs.next()) rs.getString(1) else null
-        }
-        val currentSchema = jdbcTemplate.query("SELECT SYS_CONTEXT('USERENV','CURRENT_SCHEMA') FROM DUAL") { rs ->
-            if (rs.next()) rs.getString(1) else null
-        }
-        logger.info("DB USER: " + user + ", CURRENT_SCHEMA: " + currentSchema)
+        val user: String? = jdbcTemplate.queryForObject(
+            "SELECT USER FROM DUAL",
+            emptyMap<String, Any>(),
+            String::class.java,
+        )
+        val currentSchema: String? = jdbcTemplate.queryForObject(
+            "SELECT SYS_CONTEXT('USERENV','CURRENT_SCHEMA') FROM DUAL",
+            emptyMap<String, Any>(),
+            String::class.java
+        )
+
+        logger.info("DB USER: $user, CURRENT_SCHEMA: $currentSchema")
 
         val result =
             jdbcTemplate.query("select TEKST from T_GRADSTYPE") { resultSet, _ ->
