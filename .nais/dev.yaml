@@ -87,7 +87,7 @@ spec:
     - name: APP_JPA_PLATFORM
       value: org.hibernate.dialect.OracleDialect
     - name: APP_DEFAULT_SCHEMA
-      value: INFOTRYGD_EBQ
+      value: EB_INFOTRYGD_Q1
     - name: APP_AZURE_PROXY_URL
       value: https://webproxy-nais.nav.no:8088
     - name: APP_DATASOURCE_USERNAME_PATH
