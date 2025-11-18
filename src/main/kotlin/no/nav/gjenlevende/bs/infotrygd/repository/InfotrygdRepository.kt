@@ -60,7 +60,7 @@ class InfotrygdRepository(
         logger.info("DB USER: $user, CURRENT_SCHEMA: $currentSchema")
 
         val result =
-            jdbcTemplate.query("select TEKST from T_GRADSTYPE") { resultSet, _ ->
+            jdbcTemplate.query("select TEKST from INFOTRYGD_EBQ.T_GRADSTYPE") { resultSet, _ ->
                 resultSet.getString("TEKST")
             }
         return result.toList()
