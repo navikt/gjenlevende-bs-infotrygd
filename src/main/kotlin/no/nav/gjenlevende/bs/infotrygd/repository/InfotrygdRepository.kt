@@ -45,7 +45,7 @@ class InfotrygdRepository(
         val result =
             jdbcTemplate.query(
                 """
-                select TEKST from T_GRADSTYPE;
+                select TEKST from T_GRADSTYPE
                 """,
             ) { resultSet, _ ->
                 resultSet.getString("TEKST")
