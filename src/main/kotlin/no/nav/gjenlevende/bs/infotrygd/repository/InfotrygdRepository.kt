@@ -46,16 +46,18 @@ class InfotrygdRepository(
     }
 
     fun test(): List<String> {
-        val user: String? = jdbcTemplate.queryForObject(
-            "SELECT USER FROM DUAL",
-            emptyMap<String, Any>(),
-            String::class.java,
-        )
-        val currentSchema: String? = jdbcTemplate.queryForObject(
-            "SELECT SYS_CONTEXT('USERENV','CURRENT_SCHEMA') FROM DUAL",
-            emptyMap<String, Any>(),
-            String::class.java
-        )
+        val user: String? =
+            jdbcTemplate.queryForObject(
+                "SELECT USER FROM DUAL",
+                emptyMap<String, Any>(),
+                String::class.java,
+            )
+        val currentSchema: String? =
+            jdbcTemplate.queryForObject(
+                "SELECT SYS_CONTEXT('USERENV','CURRENT_SCHEMA') FROM DUAL",
+                emptyMap<String, Any>(),
+                String::class.java,
+            )
 
         logger.info("DB USER: $user, CURRENT_SCHEMA: $currentSchema")
 

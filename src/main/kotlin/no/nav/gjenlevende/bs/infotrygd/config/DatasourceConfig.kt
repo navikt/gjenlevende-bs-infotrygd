@@ -16,7 +16,6 @@ import javax.sql.DataSource
 @Configuration
 @EnableConfigurationProperties(DatasourceConfiguration::class)
 open class DatasourceConfig {
-
     private val logger = LoggerFactory.getLogger(javaClass)
 
     @Bean
