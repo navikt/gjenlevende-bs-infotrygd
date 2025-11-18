@@ -1,6 +1,7 @@
 package no.nav.gjenlevende.bs.infotrygd.config
 
 import jakarta.validation.constraints.NotEmpty
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -15,6 +16,9 @@ import javax.sql.DataSource
 @Configuration
 @EnableConfigurationProperties(DatasourceConfiguration::class)
 open class DatasourceConfig {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @Bean
     open fun datasourceConfiguration(): DatasourceConfiguration = DatasourceConfiguration()
 
@@ -22,8 +26,11 @@ open class DatasourceConfig {
     open fun vaultDatasourceUsername(
         @Value("\${vault.username}") filePath: String,
     ): String {
+        logger.info("Vault username path: $filePath")
         val path = Paths.get(filePath)
-        return Files.readString(path)
+        val username = Files.readString(path)
+        logger.info("Vault username: $username")
+        return username
     }
 
     @Bean
