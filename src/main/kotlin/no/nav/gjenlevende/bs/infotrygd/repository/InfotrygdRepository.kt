@@ -15,13 +15,13 @@ open class InfotrygdRepository(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun harStønad(
-        personIdenter: Set<String>,
+        personidenter: Set<String>,
         kunAktive: Boolean = false,
         dagensDato: LocalDate = LocalDate.now(),
     ): List<String> {
         val values =
             MapSqlParameterSource()
-                .addValue("personIdenter", personIdenter)
+                .addValue("personidenter", personidenter)
         val filter: String =
             if (kunAktive) {
                 values.addValue("dagensDato", dagensDato)
@@ -35,7 +35,7 @@ open class InfotrygdRepository(
                 """
                 SELECT L.PERSONNR
                   FROM T_BESLUT B
-                WHERE L.PERSONNR IN (:personIdenter)
+                WHERE L.PERSONNR IN (:personidenter)
                   $filter
                 GROUP BY L.personnr
             """,
@@ -70,7 +70,7 @@ open class InfotrygdRepository(
     }
 
     fun hentVedtakPerioderForPerson(personident: String): List<VedtakPeriode> {
-        val params = MapSqlParameterSource().addValue("personIdent", personident)
+        val params = MapSqlParameterSource().addValue("personident", personident)
 
         val query =
             """
@@ -86,7 +86,7 @@ open class InfotrygdRepository(
             JOIN INFOTRYGD_EBQ.T_STONAD s ON s.PERSON_LOPENR = l.PERSON_LOPENR
             JOIN INFOTRYGD_EBQ.T_VEDTAK v ON v.STONAD_ID = s.STONAD_ID
             LEFT JOIN INFOTRYGD_EBQ.T_ENDRING e ON e.VEDTAK_ID = v.VEDTAK_ID
-            WHERE l.PERSONNR = :personIdent
+            WHERE l.PERSONNR = :personident
               AND s.KODE_RUTINE IN ('GB', 'GU')
               AND s.OPPDRAG_ID IS NOT NULL
               AND (e.KODE IS NULL OR e.KODE NOT IN ('AN', 'UA'))

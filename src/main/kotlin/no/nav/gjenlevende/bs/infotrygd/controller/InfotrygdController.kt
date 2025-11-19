@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 open class InfotrygdController(
     private val infotrygdService: InfotrygdService,
 ) {
-    @GetMapping("/perioder/{personIdent}")
+    @GetMapping("/perioder/{personident}")
     @PreAuthorize("hasRole('SAKSBEHANDLER') and hasRole('BESLUTTER') and hasRole('VEILEDER')")
     fun hentPerioderForPerson(
-        @PathVariable personIdent: String,
+        @PathVariable personident: String,
     ): ResponseEntity<VedtakPeriodeResponse> {
-        val perioder = infotrygdService.hentVedtakPerioder(personIdent)
+        val perioder = infotrygdService.hentVedtakPerioder(personident)
         return ResponseEntity.ok(perioder)
     }
 }
