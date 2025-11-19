@@ -25,10 +25,8 @@ open class DatasourceConfig {
     open fun vaultDatasourceUsername(
         @Value("\${vault.username}") filePath: String,
     ): String {
-        logger.info("Vault username path: $filePath")
         val path = Paths.get(filePath)
         val username = Files.readString(path)
-        logger.info("Vault username: $username")
         return username
     }
 
