@@ -105,10 +105,11 @@ open class InfotrygdRepository(
         }
     }
 
-    fun hentRollerForVedtak(vedtakIds: List<Long>): List<RolleData> {
-        if (vedtakIds.isEmpty()) return emptyList()
+    // TODO: Usikker på om dette trengs, skal gå gjennom dette ved senere anledning.
+    fun hentRollerForVedtak(vedtakIder: List<Long>): List<RolleData> {
+        if (vedtakIder.isEmpty()) return emptyList()
 
-        val params = MapSqlParameterSource().addValue("vedtakIds", vedtakIds)
+        val params = MapSqlParameterSource().addValue("vedtakIds", vedtakIder)
 
         val query =
             """
