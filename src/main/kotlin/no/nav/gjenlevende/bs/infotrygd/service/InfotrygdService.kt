@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
 @Service
 class InfotrygdService(
     private val infotrygdRepository: InfotrygdRepository,
-) : CommandLineRunner {
+) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun run(vararg args: String) {
+    fun test() {
         val test = infotrygdRepository.test()
         logger.info("Antall treff i db: ${test.size} - skal være 7")
     }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/infotrygd")
-class InfotrygdController {
+open class InfotrygdController {
     @GetMapping("/ping")
     @PreAuthorize("hasRole('SAKSBEHANDLER')")
     fun ping(
