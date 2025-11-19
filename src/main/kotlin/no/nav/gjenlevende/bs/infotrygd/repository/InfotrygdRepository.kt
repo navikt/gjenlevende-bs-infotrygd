@@ -109,7 +109,7 @@ open class InfotrygdRepository(
     fun hentRollerForVedtak(vedtakIder: List<Long>): List<RolleData> {
         if (vedtakIder.isEmpty()) return emptyList()
 
-        val params = MapSqlParameterSource().addValue("vedtakIds", vedtakIder)
+        val params = MapSqlParameterSource().addValue("vedtakIder", vedtakIder)
 
         val query =
             """
@@ -119,7 +119,7 @@ open class InfotrygdRepository(
                 r.FOM,
                 r.TOM
             FROM INFOTRYGD_EBQ.T_ROLLE r
-            WHERE r.VEDTAK_ID IN (:vedtakIds)
+            WHERE r.VEDTAK_ID IN (:vedtakIder)
             """.trimIndent()
 
         return jdbcTemplate.query(query, params) { rs, _ ->
