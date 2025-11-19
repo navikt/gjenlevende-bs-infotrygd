@@ -1,5 +1,10 @@
 FROM gcr.io/distroless/java21-debian12:nonroot
+
+COPY --chown=nonroot:nonroot target/gjenlevende-bs-infotrygd.jar /app/app.jar
+
+WORKDIR /app
+
+ENV APP_NAME=gjenlevende-bs-infotrygd
 ENV TZ="Europe/Oslo"
-COPY target/gjenlevende-bs-infotrygd.jar /app/app.jar
-ENV JDK_JAVA_OPTIONS="-XX:MaxRAMPercentage=75"
-CMD ["-jar", "/app/app.jar"]
+# TLS Config works around an issue in OpenJDK... See: https://github.com/kubernetes-client/java/issues/854
+ENTRYPOINT [ "java", "-Djdk.tls.client.protocols=TLSv1.2", "-jar", "/app/app.jar" ]
