@@ -8,7 +8,7 @@ import java.time.LocalDate
 import kotlin.collections.emptyMap
 
 @Repository
-class InfotrygdRepository(
+open class InfotrygdRepository(
     private val jdbcTemplate: NamedParameterJdbcTemplate,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
