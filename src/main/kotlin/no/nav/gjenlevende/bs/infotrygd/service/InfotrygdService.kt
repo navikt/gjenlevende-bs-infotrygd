@@ -38,12 +38,14 @@ class InfotrygdService(
         val roller = infotrygdRepository.hentRollerForVedtak(vedtakIder)
         val rollerPerVedtak = roller.groupBy { it.vedtakId }
 
-        val perioder =
-            vedtakPerioder.map { vedtak ->
+        val barnetilsynVedtak = vedtakPerioder.filter { it.stønadType == StønadType.BARNETILSYN }
+        val skolepengerVedtak = vedtakPerioder.filter { it.stønadType == StønadType.SKOLEPENGER }
+
+        val barnetilsynPerioder =
+            barnetilsynVedtak.map { vedtak ->
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
 
                 PeriodeResponse(
-                    stønadType = vedtak.stønadType,
                     fom = vedtak.datoFom,
                     tom = vedtak.beregnTomDato(),
                     vedtakId = vedtak.vedtakId,
@@ -59,8 +61,25 @@ class InfotrygdService(
                 )
             }
 
-        val barnetilsynPerioder = perioder.filter { it.stønadType == StønadType.BARNETILSYN }
-        val skolepengerPerioder = perioder.filter { it.stønadType == StønadType.SKOLEPENGER }
+        val skolepengerPerioder =
+            skolepengerVedtak.map { vedtak ->
+                val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
+
+                PeriodeResponse(
+                    fom = vedtak.datoFom,
+                    tom = vedtak.beregnTomDato(),
+                    vedtakId = vedtak.vedtakId,
+                    stønadId = vedtak.stønadId,
+                    barn =
+                        barnForVedtak.map { barn ->
+                            BarnInfo(
+                                personLøpenummer = barn.personLøpenummer,
+                                fom = barn.fom,
+                                tom = barn.tom,
+                            )
+                        },
+                )
+            }
 
         logger.info("Fant ${barnetilsynPerioder.size} barnetilsyn-perioder og ${skolepengerPerioder.size} skolepenger-perioder")
 
