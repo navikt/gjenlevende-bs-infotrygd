@@ -9,6 +9,10 @@ enum class StønadType(
     SKOLEPENGER("GU"),
 }
 
+data class VedtakPeriodeRequest(
+    val personident: String,
+)
+
 data class BarnInfo(
     val personLøpenummer: Long,
     val fom: LocalDate,
