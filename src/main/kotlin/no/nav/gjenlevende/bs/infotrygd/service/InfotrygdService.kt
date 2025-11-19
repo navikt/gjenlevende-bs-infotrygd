@@ -34,7 +34,7 @@ class InfotrygdService(
 
         val vedtakIder = vedtakPerioder.map { it.vedtakId }
 
-        // TODO: Usikker på om dette trengs.
+
         val roller = infotrygdRepository.hentRollerForVedtak(vedtakIder)
         val rollerPerVedtak = roller.groupBy { it.vedtakId }
 
