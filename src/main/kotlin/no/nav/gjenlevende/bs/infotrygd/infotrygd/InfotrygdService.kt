@@ -1,10 +1,10 @@
-package no.nav.gjenlevende.bs.infotrygd.service
+package no.nav.gjenlevende.bs.infotrygd.infotrygd
 
-import no.nav.gjenlevende.bs.infotrygd.dto.BarnInfo
-import no.nav.gjenlevende.bs.infotrygd.dto.PeriodeResponse
-import no.nav.gjenlevende.bs.infotrygd.dto.StønadType
-import no.nav.gjenlevende.bs.infotrygd.dto.VedtakPeriodeResponse
-import no.nav.gjenlevende.bs.infotrygd.repository.InfotrygdRepository
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.BarnInfo
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.PeriodeResponse
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.StønadType
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeResponse
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.repository.InfotrygdRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 

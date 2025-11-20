@@ -1,6 +1,6 @@
-package no.nav.gjenlevende.bs.infotrygd.repository
+package no.nav.gjenlevende.bs.infotrygd.infotrygd.repository
 
-import no.nav.gjenlevende.bs.infotrygd.dto.StønadType
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.StønadType
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
