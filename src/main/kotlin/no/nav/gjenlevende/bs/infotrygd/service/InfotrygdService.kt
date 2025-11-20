@@ -45,28 +45,19 @@ class InfotrygdService(
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
                 val vedtakTom = vedtak.beregnTomDato()
 
-                val harAvvikendeDatoer =
-                    barnForVedtak.any { barn ->
-                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
-                    }
-
                 PeriodeResponse(
+                    stønadType = StønadType.BARNETILSYN,
                     fom = vedtak.datoFom,
                     tom = vedtakTom,
                     vedtakId = vedtak.vedtakId,
                     stønadId = vedtak.stønadId,
-                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
-                    barnDetaljer =
-                        if (harAvvikendeDatoer) {
-                            barnForVedtak.map { barn ->
-                                BarnInfo(
-                                    personLøpenummer = barn.personLøpenummer,
-                                    fom = barn.fom,
-                                    tom = barn.tom,
-                                )
-                            }
-                        } else {
-                            null
+                    barn =
+                        barnForVedtak.map { barn ->
+                            BarnInfo(
+                                personLøpenummer = barn.personLøpenummer,
+                                fom = barn.fom,
+                                tom = barn.tom,
+                            )
                         },
                 )
             }
@@ -76,29 +67,19 @@ class InfotrygdService(
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
                 val vedtakTom = vedtak.beregnTomDato()
 
-                // Sjekk om noen barn har andre datoer enn vedtaket
-                val harAvvikendeDatoer =
-                    barnForVedtak.any { barn ->
-                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
-                    }
-
                 PeriodeResponse(
+                    stønadType = StønadType.SKOLEPENGER,
                     fom = vedtak.datoFom,
                     tom = vedtakTom,
                     vedtakId = vedtak.vedtakId,
                     stønadId = vedtak.stønadId,
-                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
-                    barnDetaljer =
-                        if (harAvvikendeDatoer) {
-                            barnForVedtak.map { barn ->
-                                BarnInfo(
-                                    personLøpenummer = barn.personLøpenummer,
-                                    fom = barn.fom,
-                                    tom = barn.tom,
-                                )
-                            }
-                        } else {
-                            null
+                    barn =
+                        barnForVedtak.map { barn ->
+                            BarnInfo(
+                                personLøpenummer = barn.personLøpenummer,
+                                fom = barn.fom,
+                                tom = barn.tom,
+                            )
                         },
                 )
             }

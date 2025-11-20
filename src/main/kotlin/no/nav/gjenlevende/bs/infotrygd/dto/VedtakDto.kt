@@ -20,12 +20,12 @@ data class BarnInfo(
 )
 
 data class PeriodeResponse(
+    val stønadType: StønadType,
     val fom: LocalDate,
     val tom: LocalDate?,
     val vedtakId: Long,
     val stønadId: Long,
-    val barnPersonLøpenummer: List<Long> = emptyList(),
-    val barnDetaljer: List<BarnInfo>? = null,
+    val barn: List<BarnInfo> = emptyList(),
 )
 
 data class VedtakPeriodeResponse(
