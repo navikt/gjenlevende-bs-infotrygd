@@ -20,8 +20,6 @@ class InfotrygdService(
     }
 
     fun hentVedtakPerioder(personident: String): VedtakPeriodeResponse {
-        logger.info("Henter vedtak perioder for person")
-
         val vedtakPerioder =
             infotrygdRepository
                 .hentVedtakPerioderForPerson(personident)
@@ -45,28 +43,19 @@ class InfotrygdService(
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
                 val vedtakTom = vedtak.beregnTomDato()
 
-                val harAvvikendeDatoer =
-                    barnForVedtak.any { barn ->
-                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
-                    }
-
                 PeriodeResponse(
+                    stønadType = StønadType.BARNETILSYN,
                     fom = vedtak.datoFom,
                     tom = vedtakTom,
                     vedtakId = vedtak.vedtakId,
                     stønadId = vedtak.stønadId,
-                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
-                    barnDetaljer =
-                        if (harAvvikendeDatoer) {
-                            barnForVedtak.map { barn ->
-                                BarnInfo(
-                                    personLøpenummer = barn.personLøpenummer,
-                                    fom = barn.fom,
-                                    tom = barn.tom,
-                                )
-                            }
-                        } else {
-                            null
+                    barn =
+                        barnForVedtak.map { barn ->
+                            BarnInfo(
+                                personLøpenummer = barn.personLøpenummer,
+                                fom = barn.fom,
+                                tom = barn.tom,
+                            )
                         },
                 )
             }
@@ -76,34 +65,22 @@ class InfotrygdService(
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
                 val vedtakTom = vedtak.beregnTomDato()
 
-                // Sjekk om noen barn har andre datoer enn vedtaket
-                val harAvvikendeDatoer =
-                    barnForVedtak.any { barn ->
-                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
-                    }
-
                 PeriodeResponse(
+                    stønadType = StønadType.SKOLEPENGER,
                     fom = vedtak.datoFom,
                     tom = vedtakTom,
                     vedtakId = vedtak.vedtakId,
                     stønadId = vedtak.stønadId,
-                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
-                    barnDetaljer =
-                        if (harAvvikendeDatoer) {
-                            barnForVedtak.map { barn ->
-                                BarnInfo(
-                                    personLøpenummer = barn.personLøpenummer,
-                                    fom = barn.fom,
-                                    tom = barn.tom,
-                                )
-                            }
-                        } else {
-                            null
+                    barn =
+                        barnForVedtak.map { barn ->
+                            BarnInfo(
+                                personLøpenummer = barn.personLøpenummer,
+                                fom = barn.fom,
+                                tom = barn.tom,
+                            )
                         },
                 )
             }
-
-        logger.info("Fant ${barnetilsynPerioder.size} barnetilsyn-perioder og ${skolepengerPerioder.size} skolepenger-perioder")
 
         return VedtakPeriodeResponse(
             personident = personident,
