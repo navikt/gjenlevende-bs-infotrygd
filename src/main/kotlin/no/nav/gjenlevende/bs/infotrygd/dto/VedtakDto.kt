@@ -9,6 +9,10 @@ enum class StønadType(
     SKOLEPENGER("GU"),
 }
 
+data class VedtakPeriodeRequest(
+    val personident: String,
+)
+
 data class BarnInfo(
     val personLøpenummer: Long,
     val fom: LocalDate,
@@ -16,13 +20,12 @@ data class BarnInfo(
 )
 
 data class PeriodeResponse(
-    val stønadType: StønadType,
     val fom: LocalDate,
     val tom: LocalDate?,
-    val beløp: Int? = null,
     val vedtakId: Long,
     val stønadId: Long,
-    val barn: List<BarnInfo> = emptyList(),
+    val barnPersonLøpenummer: List<Long> = emptyList(),
+    val barnDetaljer: List<BarnInfo>? = null,
 )
 
 data class VedtakPeriodeResponse(

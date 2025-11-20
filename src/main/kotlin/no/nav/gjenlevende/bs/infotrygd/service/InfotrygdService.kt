@@ -34,33 +34,74 @@ class InfotrygdService(
 
         val vedtakIder = vedtakPerioder.map { it.vedtakId }
 
-        // TODO: Usikker på om dette trengs.
         val roller = infotrygdRepository.hentRollerForVedtak(vedtakIder)
         val rollerPerVedtak = roller.groupBy { it.vedtakId }
 
-        val perioder =
-            vedtakPerioder.map { vedtak ->
+        val barnetilsynVedtak = vedtakPerioder.filter { it.stønadType == StønadType.BARNETILSYN }
+        val skolepengerVedtak = vedtakPerioder.filter { it.stønadType == StønadType.SKOLEPENGER }
+
+        val barnetilsynPerioder =
+            barnetilsynVedtak.map { vedtak ->
                 val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
+                val vedtakTom = vedtak.beregnTomDato()
+
+                val harAvvikendeDatoer =
+                    barnForVedtak.any { barn ->
+                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
+                    }
 
                 PeriodeResponse(
-                    stønadType = vedtak.stønadType,
                     fom = vedtak.datoFom,
-                    tom = vedtak.beregnTomDato(),
+                    tom = vedtakTom,
                     vedtakId = vedtak.vedtakId,
                     stønadId = vedtak.stønadId,
-                    barn =
-                        barnForVedtak.map { barn ->
-                            BarnInfo(
-                                personLøpenummer = barn.personLøpenummer,
-                                fom = barn.fom,
-                                tom = barn.tom,
-                            )
+                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
+                    barnDetaljer =
+                        if (harAvvikendeDatoer) {
+                            barnForVedtak.map { barn ->
+                                BarnInfo(
+                                    personLøpenummer = barn.personLøpenummer,
+                                    fom = barn.fom,
+                                    tom = barn.tom,
+                                )
+                            }
+                        } else {
+                            null
                         },
                 )
             }
 
-        val barnetilsynPerioder = perioder.filter { it.stønadType == StønadType.BARNETILSYN }
-        val skolepengerPerioder = perioder.filter { it.stønadType == StønadType.SKOLEPENGER }
+        val skolepengerPerioder =
+            skolepengerVedtak.map { vedtak ->
+                val barnForVedtak = rollerPerVedtak[vedtak.vedtakId].orEmpty()
+                val vedtakTom = vedtak.beregnTomDato()
+
+                // Sjekk om noen barn har andre datoer enn vedtaket
+                val harAvvikendeDatoer =
+                    barnForVedtak.any { barn ->
+                        barn.fom != vedtak.datoFom || barn.tom != vedtakTom
+                    }
+
+                PeriodeResponse(
+                    fom = vedtak.datoFom,
+                    tom = vedtakTom,
+                    vedtakId = vedtak.vedtakId,
+                    stønadId = vedtak.stønadId,
+                    barnPersonLøpenummer = barnForVedtak.map { it.personLøpenummer },
+                    barnDetaljer =
+                        if (harAvvikendeDatoer) {
+                            barnForVedtak.map { barn ->
+                                BarnInfo(
+                                    personLøpenummer = barn.personLøpenummer,
+                                    fom = barn.fom,
+                                    tom = barn.tom,
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                )
+            }
 
         logger.info("Fant ${barnetilsynPerioder.size} barnetilsyn-perioder og ${skolepengerPerioder.size} skolepenger-perioder")
 

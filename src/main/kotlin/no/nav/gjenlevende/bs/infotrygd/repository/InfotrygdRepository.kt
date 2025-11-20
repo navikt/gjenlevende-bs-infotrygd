@@ -105,7 +105,6 @@ open class InfotrygdRepository(
         }
     }
 
-    // TODO: Usikker på om dette trengs, skal gå gjennom dette ved senere anledning.
     fun hentRollerForVedtak(vedtakIder: List<Long>): List<RolleData> {
         if (vedtakIder.isEmpty()) return emptyList()
 
