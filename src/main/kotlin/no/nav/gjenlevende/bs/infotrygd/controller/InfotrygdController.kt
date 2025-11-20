@@ -22,13 +22,12 @@ open class InfotrygdController(
     @PreAuthorize("hasRole('SAKSBEHANDLER') and hasRole('BESLUTTER') and hasRole('VEILEDER')")
     fun hentPerioderForPerson(
         @RequestBody request: VedtakPeriodeRequest,
-    ): ResponseEntity<VedtakPeriodeResponse> {
-        return try {
+    ): ResponseEntity<VedtakPeriodeResponse> =
+        try {
             val perioder = infotrygdService.hentVedtakPerioder(request.personident)
             ResponseEntity.ok(perioder)
         } catch (e: Exception) {
             logger.error("Feil ved henting av perioder fra Infotrygd: ${e.message}", e)
             throw e
         }
-    }
 }
