@@ -20,8 +20,6 @@ class InfotrygdService(
     }
 
     fun hentVedtakPerioder(personident: String): VedtakPeriodeResponse {
-        logger.info("Henter vedtak perioder for person")
-
         val vedtakPerioder =
             infotrygdRepository
                 .hentVedtakPerioderForPerson(personident)
@@ -83,8 +81,6 @@ class InfotrygdService(
                         },
                 )
             }
-
-        logger.info("Fant ${barnetilsynPerioder.size} barnetilsyn-perioder og ${skolepengerPerioder.size} skolepenger-perioder")
 
         return VedtakPeriodeResponse(
             personident = personident,

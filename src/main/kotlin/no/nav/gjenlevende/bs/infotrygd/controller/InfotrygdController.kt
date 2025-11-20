@@ -23,11 +23,8 @@ open class InfotrygdController(
     fun hentPerioderForPerson(
         @RequestBody request: VedtakPeriodeRequest,
     ): ResponseEntity<VedtakPeriodeResponse> {
-        logger.info("Mottatt forespørsel om å hente perioder for person")
-
         return try {
             val perioder = infotrygdService.hentVedtakPerioder(request.personident)
-            logger.info("Returnerer perioder: ${perioder.barnetilsyn.size} barnetilsyn, ${perioder.skolepenger.size} skolepenger")
             ResponseEntity.ok(perioder)
         } catch (e: Exception) {
             logger.error("Feil ved henting av perioder fra Infotrygd: ${e.message}", e)
