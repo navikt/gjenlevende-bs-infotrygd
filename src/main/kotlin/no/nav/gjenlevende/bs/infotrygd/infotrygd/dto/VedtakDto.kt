@@ -1,4 +1,4 @@
-package no.nav.gjenlevende.bs.infotrygd.dto
+package no.nav.gjenlevende.bs.infotrygd.infotrygd.dto
 
 import java.time.LocalDate
 

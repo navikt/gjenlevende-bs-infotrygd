@@ -1,8 +1,7 @@
-package no.nav.gjenlevende.bs.infotrygd.controller
+package no.nav.gjenlevende.bs.infotrygd.infotrygd
 
-import no.nav.gjenlevende.bs.infotrygd.dto.VedtakPeriodeRequest
-import no.nav.gjenlevende.bs.infotrygd.dto.VedtakPeriodeResponse
-import no.nav.gjenlevende.bs.infotrygd.service.InfotrygdService
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeRequest
+import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
