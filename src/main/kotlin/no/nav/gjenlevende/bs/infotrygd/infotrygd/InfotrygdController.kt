@@ -2,6 +2,7 @@ package no.nav.gjenlevende.bs.infotrygd.infotrygd
 
 import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeRequest
 import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeResponse
+import no.nav.gjenlevende.bs.infotrygd.util.PersonidentValidator
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -23,6 +24,7 @@ open class InfotrygdController(
         @RequestBody request: VedtakPeriodeRequest,
     ): ResponseEntity<VedtakPeriodeResponse> =
         try {
+            PersonidentValidator.validerPersonident(request.personident)
             val perioder = infotrygdService.hentVedtakPerioder(request.personident)
             ResponseEntity.ok(perioder)
         } catch (e: Exception) {
