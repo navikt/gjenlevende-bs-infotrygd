@@ -1,0 +1,13 @@
+package no.nav.gjenlevende.bs.infotrygd.util
+
+object PersonidentValidator {
+    private val PERSONIDENT_REGEX = """[0-9]{11}""".toRegex()
+
+    fun validerPersonident(personident: String) {
+        if (personident.length != 11 || !PERSONIDENT_REGEX.matches(personident)) {
+            throw IllegalArgumentException("Ugyldig personident.")
+        }
+    }
+
+    fun erGyldigPersonident(personident: String): Boolean = personident.length == 11 && PERSONIDENT_REGEX.matches(personident)
+}
