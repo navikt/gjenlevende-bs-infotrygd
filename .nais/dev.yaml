@@ -35,6 +35,10 @@ spec:
         -   application: gjenlevende-bs-sak
             cluster: dev-gcp
 
+            # Team logs
+        -   application: logging
+            namespace: nais-system
+
   # Helse
   liveness:
     path: /internal/status/isAlive
