@@ -45,7 +45,7 @@ spec:
     initialDelay: 30
     failureThreshold: 10
   readiness:
-    path: /internal/status/isAlive
+    path: /internal/status/isReady
     initialDelay: 30
     failureThreshold: 10
   vault:
