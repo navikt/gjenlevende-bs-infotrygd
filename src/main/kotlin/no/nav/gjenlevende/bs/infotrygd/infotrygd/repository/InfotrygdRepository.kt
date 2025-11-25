@@ -69,6 +69,20 @@ open class InfotrygdRepository(
         return result.toList()
     }
 
+    fun personEksisterer(personident: String): Boolean {
+        val params = MapSqlParameterSource().addValue("personident", personident)
+
+        val query =
+            """
+            SELECT COUNT(*) as ANTALL
+            FROM INFOTRYGD_EBQ.T_LOPENR_FNR
+            WHERE PERSONNR = :personident
+            """.trimIndent()
+
+        val count = jdbcTemplate.queryForObject(query, params, Int::class.java) ?: 0
+        return count > 0
+    }
+
     fun hentVedtakPerioderForPerson(personident: String): List<VedtakPeriode> {
         val params = MapSqlParameterSource().addValue("personident", personident)
 

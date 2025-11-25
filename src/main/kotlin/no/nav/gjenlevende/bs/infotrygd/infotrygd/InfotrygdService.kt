@@ -5,7 +5,9 @@ import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.PeriodeResponse
 import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.StønadType
 import no.nav.gjenlevende.bs.infotrygd.infotrygd.dto.VedtakPeriodeResponse
 import no.nav.gjenlevende.bs.infotrygd.infotrygd.repository.InfotrygdRepository
+import no.nav.gjenlevende.bs.infotrygd.infrastruktur.exception.ApiFeil
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,13 +22,18 @@ class InfotrygdService(
     }
 
     fun hentVedtakPerioder(personident: String): VedtakPeriodeResponse {
+        if (!infotrygdRepository.personEksisterer(personident)) {
+            logger.info("Person med ident ikke funnet i Infotrygd")
+            throw ApiFeil("Person ikke funnet i Infotrygd", HttpStatus.NOT_FOUND)
+        }
+
         val vedtakPerioder =
             infotrygdRepository
                 .hentVedtakPerioderForPerson(personident)
                 .filter { it.erGyldigPeriode() }
 
         if (vedtakPerioder.isEmpty()) {
-            logger.info("Ingen vedtak perioder funnet for person")
+            logger.info("Person funnet i Infotrygd, men ingen vedtak perioder funnet")
             return VedtakPeriodeResponse(personident = personident)
         }
 
