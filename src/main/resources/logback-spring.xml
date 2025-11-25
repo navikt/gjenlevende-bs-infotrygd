@@ -31,4 +31,8 @@
     <logger name="secureLogger" level="INFO" additivity="false">
         <appender-ref ref="secureLog"/>
     </logger>
+
+    <!-- Suppress NoResourceFoundException logging for internal endpoints -->
+    <logger name="org.springframework.web.servlet.resource.ResourceHttpRequestHandler" level="ERROR" />
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler" level="ERROR" />
 </configuration>

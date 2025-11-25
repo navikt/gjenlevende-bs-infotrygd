@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @ControllerAdvice
 class ApiExceptionHandler {
@@ -24,6 +25,22 @@ class ApiExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(FeilResponse(e.message ?: "Ugyldig request", HttpStatus.BAD_REQUEST.value()))
+    }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun handleNoResourceFoundException(e: NoResourceFoundException): ResponseEntity<FeilResponse> {
+        val ressursPath = e.resourcePath
+
+        if (ressursPath.startsWith("/internal/")) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(FeilResponse("Ressurs ikke funnet", HttpStatus.NOT_FOUND.value()))
+        }
+
+        logger.debug("Ressurs ikke funnet: $ressursPath")
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body(FeilResponse("Ressurs ikke funnet", HttpStatus.NOT_FOUND.value()))
     }
 
     @ExceptionHandler(Exception::class)
