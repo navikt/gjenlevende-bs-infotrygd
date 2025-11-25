@@ -37,6 +37,11 @@ management:
         include: health, metrics, prometheus
       base-path: /internal
 
+logging:
+  level:
+    org.springframework.boot.actuate.endpoint.web: ERROR
+    org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping: WARN
+
 no.nav.security.jwt:
   expirythreshold: 60 #threshold in minutes until token expires
   issuer:
