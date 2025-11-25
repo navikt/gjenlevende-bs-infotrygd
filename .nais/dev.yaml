@@ -35,7 +35,7 @@ spec:
         -   application: gjenlevende-bs-sak
             cluster: dev-gcp
 
-            # Team logs
+            # Team Logs
         -   application: logging
             namespace: nais-system
 
