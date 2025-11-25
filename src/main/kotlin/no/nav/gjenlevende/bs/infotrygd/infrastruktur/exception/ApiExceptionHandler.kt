@@ -28,6 +28,10 @@ class ApiExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleGeneralException(e: Exception): ResponseEntity<FeilResponse> {
+        if (e.javaClass.packageName.startsWith("org.springframework")) {
+            throw e
+        }
+
         logger.error("Uventet feil: ${e.message}", e)
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
