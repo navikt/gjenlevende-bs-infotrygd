@@ -27,7 +27,8 @@ class LogFilter
 
         private val dontLog =
             setOf(
-                "/internal/status/isAlive",
+                "/internal/health/liveness",
+                "/internal/health/readiness",
                 "/internal/prometheus",
                 "/api/ping",
             )
